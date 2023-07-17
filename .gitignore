@@ -1,0 +1,9 @@
+# created by virtualenv automatically
+
+# General
+.DS_Store
+.idea
+
+# Environments
+venv/
+
