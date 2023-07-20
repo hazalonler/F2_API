@@ -12,7 +12,6 @@ components:
     Task:
       type: "object"
       required:
-        - id
         - name
       properties:
         id:
@@ -21,9 +20,13 @@ components:
           type: "string"
         description:
           type: "string"
-        priorty:
+        priority:
           type: "integer"
         listId:
+          type: "string"
+        boardId:
+          type: "string"
+        date:
           type: "string"
   parameters:
     id:
@@ -33,32 +36,45 @@ components:
       required: True
       schema:
         type: "string"
+    boardId:
+      name: "boardId"
+      description: "The ID of the board to get"
+      in: path
+      required: True
+      schema:
+        type: "string"
 
 
 paths:
-  /board:
+  /board/{boardId}:
     get:
-      operationId: "board_client.read_board"
+      operationId: "controller.board_controller.read_board"
       tags:
         - "Board"
       summary: "Read the board configuration"
+      parameters:
+        - $ref: "#/components/parameters/boardId"
       responses:
         "200":
           description: "Successfully read the board configuration"
-  /board/tasks:
+  /board/{boardId}/tasks:
     get:
-      operationId: "tasks.read_tasks"
+      operationId: "controller.tasks_controller.read_tasks"
       tags:
         - "Tasks"
       summary: "Read all tasks"
+      parameters:
+        - $ref: "#/components/parameters/boardId"
       responses:
         "200":
           description: "Successfully read all tasks"
     post:
-      operationId: "tasks.create"
+      operationId: "controller.tasks_controller.create"
       tags:
         - Tasks
       summary: "Create a new task"
+      parameters:
+        - $ref: "#/components/parameters/boardId"
       requestBody:
         description: "Task to create"
         required: True
@@ -70,9 +86,9 @@ paths:
       responses:
         "201":
           description: "Successfully created a new task"
-  /board/tasks/{id}:
+  /tasks/{id}:
     get:
-      operationId: "tasks.read_one"
+      operationId: "controller.tasks_controller.read_one"
       tags:
         - Tasks
       summary: "Read one task"
@@ -84,11 +100,28 @@ paths:
     delete:
       tags:
         - Tasks
-      operationId: "tasks.delete"
+      operationId: "controller.tasks_controller.delete"
       summary: "Delete a task"
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
         "204":
           description: "Successfully deleted task"
+    put:
+      tags:
+        - Tasks
+      operationId: "controller.tasks_controller.update"
+      summary: "Update a task"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Successfully updated task"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "task"
+              $ref: "#/components/schemas/Task"
+
 
