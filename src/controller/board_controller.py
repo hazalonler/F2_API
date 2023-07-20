@@ -1,8 +1,14 @@
-BOARD_CONFIG = [
-    {
-        "boardName": "Hazal's Project",
-        "boardId": "a1",
-        "listConfig": [
+from dataclasses import dataclass
+
+
+@dataclass
+class BoardConfig:
+    board_name: str
+    board_id: str
+    list_config: list
+
+
+BOARD_CONFIG = BoardConfig("Hazal's Project", "a1", [
             {
                 "id": 'e1',
                 "name": "Backlog",
@@ -38,14 +44,11 @@ BOARD_CONFIG = [
                     "borderRadius": "12px",
                     "width": "230px"}
             },
-        ]
-    }
-]
+        ])
 
 
 def read_board(boardId):
-    for board in BOARD_CONFIG:
-        if board.get("boardId") == boardId:
-            return BOARD_CONFIG
+    if BOARD_CONFIG.board_id == boardId:
+        return BOARD_CONFIG
 
 
