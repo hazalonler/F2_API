@@ -1,5 +1,5 @@
 from flask import render_template
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import connexion
 
 app = connexion.App(__name__, specification_dir="./")
@@ -8,6 +8,7 @@ cors = CORS(app.app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route("/")
+@cross_origin()
 def home():
     return render_template("home.html")
 

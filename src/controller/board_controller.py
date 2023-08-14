@@ -30,12 +30,15 @@ listConfig_2 = ListConfig("e2", "To-Do", style_config)
 listConfig_3 = ListConfig("e3", "In-Progress", style_config)
 listConfig_4 = ListConfig("e4", "Done", style_config)
 
+BOARD = {
+    "boards": [
+        BoardConfig("Hazal's Project", "a1", [listConfig_1, listConfig_2, listConfig_3, listConfig_4])
+    ]
+}
 
-BOARD_CONFIG = BoardConfig("Hazal's Project", "a1", [listConfig_1, listConfig_2, listConfig_3, listConfig_4])
 
-
-def read_board(boardId):
-    if BOARD_CONFIG.board_id == boardId:
-        return BOARD_CONFIG
+def read_board():
+    boards = BOARD.get("boards")
+    return boards
 
 

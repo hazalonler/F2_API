@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  description: An API about lists and tasks
+  title: Flask REST API For F2 Application
+  version: 1.0.0
+servers:
+- url: /api
+paths:
+  /board:
+    get:
+      operationId: controller.board_controller.read_board
+      parameters:
+      - description: The ID of the board to get
+        explode: true
+        in: query
+        name: board_id
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Successfully read the board configuration
+      summary: Read the board configuration
+      tags:
+      - Board
+      x-accepts: application/json
+  /board/{board_id}/tasks:
+    get:
+      operationId: controller.tasks_controller.read_tasks
+      parameters:
+      - description: The ID of the board to get
+        explode: true
+        in: query
+        name: board_id
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Successfully read all tasks
+      summary: Read all tasks
+      tags:
+      - Tasks
+      x-accepts: application/json
+    post:
+      operationId: controller.tasks_controller.create
+      parameters:
+      - description: The ID of the board to get
+        explode: true
+        in: query
+        name: board_id
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        description: Task to create
+        required: true
+      responses:
+        "201":
+          description: Successfully created a new task
+      summary: Create a new task
+      tags:
+      - Tasks
+      x-contentType: application/json
+      x-accepts: application/json
+    x-swagger-router-controller: tasks_controller
+  /tasks/{id}:
+    delete:
+      operationId: controller.tasks_controller.delete
+      parameters:
+      - description: The ID of the task to get
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successfully deleted task
+      summary: Delete a task
+      tags:
+      - Tasks
+      x-accepts: application/json
+    put:
+      operationId: controller.tasks_controller.update
+      parameters:
+      - description: The ID of the task to get
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: task
+      responses:
+        "200":
+          description: Successfully updated task
+      summary: Update a task
+      tags:
+      - Tasks
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  parameters:
+    id:
+      description: The ID of the task to get
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      style: simple
+    board_id:
+      description: The ID of the board to get
+      explode: true
+      in: query
+      name: board_id
+      required: true
+      schema:
+        type: string
+      style: form
+  schemas:
+    Task:
+      example:
+        listId: listId
+        date: date
+        name: name
+        description: description
+        boardId: boardId
+        id: id
+        priority: 0
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+        listId:
+          type: string
+        boardId:
+          type: string
+        date:
+          type: string
+      required:
+      - name
+      type: object
+

@@ -36,9 +36,23 @@ components:
       required: True
       schema:
         type: "string"
-    boardId:
-      name: "boardId"
+    boardIdPathParam:
+      name: "board_id"
       description: "The ID of the board to get"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    boardIdQueryParam:
+      name: "board_id"
+      description: "The ID of the board to get"
+      in: query
+      required: True
+      schema:
+        type: "string"
+    listId:
+      name: "list_id"
+      description: "The list ID of the regarding list"
       in: path
       required: True
       schema:
@@ -46,60 +60,50 @@ components:
 
 
 paths:
-  /board/{boardId}:
+  /board:
     get:
       operationId: "controller.board_controller.read_board"
       tags:
         - "Board"
       summary: "Read the board configuration"
-      parameters:
-        - $ref: "#/components/parameters/boardId"
       responses:
         "200":
           description: "Successfully read the board configuration"
-  /board/{boardId}/tasks:
+  /board/{board_id}/tasks/{list_id}:
     get:
       operationId: "controller.tasks_controller.read_tasks"
       tags:
-        - "Tasks"
+        - "Task"
       summary: "Read all tasks"
       parameters:
-        - $ref: "#/components/parameters/boardId"
+        - $ref: "#/components/parameters/boardIdPathParam"
+        - $ref: "#/components/parameters/listId"
       responses:
         "200":
-          description: "Successfully read all tasks"
+          description: "Successfully read tasks with filter"
     post:
       operationId: "controller.tasks_controller.create"
       tags:
-        - Tasks
+        - "Task"
       summary: "Create a new task"
       parameters:
-        - $ref: "#/components/parameters/boardId"
+        - $ref: "#/components/parameters/boardIdPathParam"
+        - $ref: "#/components/parameters/listId"
       requestBody:
+        x-body-name: "task"
         description: "Task to create"
         required: True
         content:
           application/json:
             schema:
-              x-body-name: "task"
               $ref: "#/components/schemas/Task"
       responses:
         "201":
           description: "Successfully created a new task"
   /tasks/{id}:
-    get:
-      operationId: "controller.tasks_controller.read_one"
-      tags:
-        - Tasks
-      summary: "Read one task"
-      parameters:
-        - $ref: "#/components/parameters/id"
-      responses:
-        "200":
-          description: "Successfully read task"
     delete:
       tags:
-        - Tasks
+        - Task
       operationId: "controller.tasks_controller.delete"
       summary: "Delete a task"
       parameters:
@@ -122,6 +126,6 @@ paths:
           application/json:
             schema:
               x-body-name: "task"
-              $ref: "#/components/schemas/Task"
+
 
 
