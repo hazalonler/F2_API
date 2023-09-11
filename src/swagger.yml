@@ -14,7 +14,7 @@ components:
       required:
         - name
       properties:
-        id:
+        _id:
           type: "string"
         name:
           type: "string"
@@ -26,33 +26,26 @@ components:
           type: "string"
         boardId:
           type: "string"
-        date:
-          type: "string"
+        creationTs:
+          type: "integer"
   parameters:
     id:
-      name: "id"
+      name: "_id"
       description: "The ID of the task to get"
       in: path
       required: True
       schema:
         type: "string"
-    boardIdPathParam:
-      name: "board_id"
+    boardId:
+      name: "boardId"
       description: "The ID of the board to get"
       in: path
       required: True
       schema:
         type: "string"
-    boardIdQueryParam:
-      name: "board_id"
-      description: "The ID of the board to get"
-      in: query
-      required: True
-      schema:
-        type: "string"
     listId:
-      name: "list_id"
-      description: "The list ID of the regarding list"
+      name: "listId"
+      description: "The ID of the board to get"
       in: path
       required: True
       schema:
@@ -69,25 +62,25 @@ paths:
       responses:
         "200":
           description: "Successfully read the board configuration"
-  /board/{board_id}/tasks/{list_id}:
+  /board/{boardId}/tasks/{listId}:
     get:
       operationId: "controller.tasks_controller.read_tasks"
       tags:
-        - "Task"
+        - "Tasks"
       summary: "Read all tasks"
       parameters:
-        - $ref: "#/components/parameters/boardIdPathParam"
+        - $ref: "#/components/parameters/boardId"
         - $ref: "#/components/parameters/listId"
       responses:
         "200":
-          description: "Successfully read tasks with filter"
+          description: "Successfully read all tasks"
     post:
       operationId: "controller.tasks_controller.create"
       tags:
-        - "Task"
+        - Tasks
       summary: "Create a new task"
       parameters:
-        - $ref: "#/components/parameters/boardIdPathParam"
+        - $ref: "#/components/parameters/boardId"
         - $ref: "#/components/parameters/listId"
       requestBody:
         x-body-name: "task"
@@ -100,10 +93,10 @@ paths:
       responses:
         "201":
           description: "Successfully created a new task"
-  /tasks/{id}:
+  /tasks/{_id}:
     delete:
       tags:
-        - Task
+        - Tasks
       operationId: "controller.tasks_controller.delete"
       summary: "Delete a task"
       parameters:
@@ -122,10 +115,8 @@ paths:
         "200":
           description: "Successfully updated task"
       requestBody:
+        x-body-name: "task"
         content:
           application/json:
             schema:
-              x-body-name: "task"
-
-
-
+              $ref: "#/components/schemas/Task"

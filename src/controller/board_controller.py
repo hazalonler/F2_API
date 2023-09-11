@@ -1,4 +1,23 @@
 from dataclasses import dataclass
+import pymongo
+import json
+from bson import ObjectId
+
+my_client = pymongo.MongoClient('mongodb://localhost:27017/')
+my_database = my_client["F2"]
+my_board_collection = my_database["boardConfig"]
+
+Board = my_board_collection.find_one()
+
+
+def custom_json_encoder(obj):
+    if isinstance(obj, ObjectId):
+        return str(obj)
+    raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+
+
+json_board = json.dumps(Board, default=custom_json_encoder)
+parsed_board_data = json.loads(json_board)
 
 
 @dataclass
@@ -22,17 +41,9 @@ class BoardConfig:
     list_config: list[ListConfig]
 
 
-style_config = Style("rgb(255, 204, 204)", "12px", "230px")
-
-
-listConfig_1 = ListConfig("e1", "Backlog", style_config)
-listConfig_2 = ListConfig("e2", "To-Do", style_config)
-listConfig_3 = ListConfig("e3", "In-Progress", style_config)
-listConfig_4 = ListConfig("e4", "Done", style_config)
-
 BOARD = {
     "boards": [
-        BoardConfig("Hazal's Project", "a1", [listConfig_1, listConfig_2, listConfig_3, listConfig_4])
+        BoardConfig(parsed_board_data["boardName"], parsed_board_data["_id"], parsed_board_data["listConfig"])
     ]
 }
 
@@ -40,5 +51,3 @@ BOARD = {
 def read_board():
     boards = BOARD.get("boards")
     return boards
-
-
