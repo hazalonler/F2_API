@@ -55,13 +55,11 @@ class Task_Dao:
                 query_id = each_task["_id"]
 
         query_update = {"_id": query_id}
-        my_result = task_collection.find(query_update)
-        for x in my_result:
-            print(x)
-        new_values = {"$set": {"priority": task.get("priority")}}
+        new_values = {"$set": {"priority": task.get("priority"), "listId": task.get("listId"), "description": task.get(
+            "description")}}
 
         x = task_collection.update_one(query_update, new_values)
-        if x.modified_count != 0:
+        if x.modified_count:
             return 200
         else:
             return 404
