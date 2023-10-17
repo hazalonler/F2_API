@@ -1,27 +1,15 @@
 from datetime import datetime
 from flask import abort, make_response
-from dataclasses import dataclass
 from src.dao.task_dao import Task_Dao
+from src.model.task_config import Task
 
 
-@dataclass
-class Task:
-    _id: str
-    name: str
-    creationTs: int
-    updatedTs: int
-    listId: str
-    boardId: str
-    priority: int = 1000
-    description: str = ""
-
-
-def read_tasks(boardId, listId):
-    task = Task_Dao()
+def find_tasks(boardId, listId):
     task_list = []
-    result = task.read_task(boardId, listId)
-    for task in result:
-        task_list.append(Task(**task))
+    task = Task_Dao()
+    result = task.find_task(boardId, listId)
+    for _ in result:
+        task_list.append(Task(**_))
     return task_list
 
 
@@ -34,9 +22,12 @@ def create(boardId, listId, task):
     task_document = {"name": name, "creationTs": date, "updatedTs": date, "listId": listId,
                      "boardId": boardId, "priority": priority, "description": description}
 
-    created_task = Task_Dao()
-
-    return created_task.create(task_document)
+    created_task = Task_Dao().create(task_document)
+    try:
+        if created_task is True:
+            return 201
+    except:
+        return 404
 
 
 def delete(_id):

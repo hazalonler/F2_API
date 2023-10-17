@@ -55,7 +55,7 @@ components:
 paths:
   /board:
     get:
-      operationId: "controller.board_controller.read_board"
+      operationId: "controller.board_controller.find_board"
       tags:
         - "Board"
       summary: "Read the board configuration"
@@ -64,7 +64,7 @@ paths:
           description: "Successfully read the board configuration"
   /board/{boardId}/tasks/{listId}:
     get:
-      operationId: "controller.tasks_controller.read_tasks"
+      operationId: "controller.tasks_controller.find_tasks"
       tags:
         - "Tasks"
       summary: "Read all tasks"
