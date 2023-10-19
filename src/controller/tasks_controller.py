@@ -1,33 +1,30 @@
 from datetime import datetime
 from flask import abort, make_response
 from src.dao.task_dao import Task_Dao
-from src.model.task_config import Task
+from src.dao.task_dao import task_dao_instance as task_dao
 
 
 def find_tasks(boardId, listId):
-    task_list = []
-    task = Task_Dao()
-    result = task.find_task(boardId, listId)
-    for _ in result:
-        task_list.append(Task(**_))
-    return task_list
+    return task_dao.find_tasks(boardId, listId)
 
 
 def create(boardId, listId, task):
-    date = int(datetime.utcnow().timestamp()) * 1000
-    description = task.get("description", "")
-    name = task.get("name")
-    priority = task.get("priority", int())
-
-    task_document = {"name": name, "creationTs": date, "updatedTs": date, "listId": listId,
-                     "boardId": boardId, "priority": priority, "description": description}
-
-    created_task = Task_Dao().create(task_document)
     try:
-        if created_task is True:
-            return 201
-    except:
+        date = int(datetime.utcnow().timestamp()) * 1000
+        description = task.get("description", "")
+        name = task.get("name")
+        priority = task.get("priority", int())
+
+        task_document = {"name": name, "creationTs": date, "updatedTs": date, "listId": listId,
+                         "boardId": boardId, "priority": priority, "description": description}
+
+        generated_id = Task_Dao().create(task_document)
+        return {'id': str(generated_id)}, 201
+
+    except BaseException:
         return 404
+    except:
+        return {}, 500
 
 
 def delete(_id):
