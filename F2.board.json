@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "64e3d4067bf54da5b70dbb4a"
+  },
+  "boardName": "F2 Project",
+  "listConfig": [
+    {
+      "listName": "Backlog",
+      "style": {
+        "borderRadius": "12px"
+      },
+      "id": "e1"
+    },
+    {
+      "listName": "To-Do",
+      "style": {
+        "borderRadius": "12px"
+      },
+      "id": "e2"
+    },
+    {
+      "listName": "In-Progress",
+      "style": {
+        "borderRadius": "12px"
+      },
+      "id": "e3"
+    },
+    {
+      "listName": "Done",
+      "style": {
+        "borderRadius": "12px"
+      },
+      "id": "e4"
+    }
+  ]
+}]

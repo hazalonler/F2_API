@@ -5,7 +5,7 @@ from src.model.board_config import BoardConfig
 
 my_client = pymongo.MongoClient('mongodb://localhost:27017/')
 my_database = my_client["F2"]
-my_board_collection = my_database["boardConfig"]
+my_board_collection = my_database["board"]
 
 Board = my_board_collection.find_one()
 
