@@ -64,7 +64,7 @@ paths:
           description: "Successfully read the board configuration"
   /board/{boardId}/tasks/{listId}:
     get:
-      operationId: "controller.tasks_controller.find_tasks"
+      operationId: "controller.tasks_controller.find"
       tags:
         - "Tasks"
       summary: "Read all tasks"

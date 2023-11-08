@@ -1,6 +1,7 @@
 import pymongo
 from bson import ObjectId
 from src.model.task_config import Task
+from src.exception import NotUpdatedError, NotDeletedError
 
 
 class Task_Dao:
@@ -14,7 +15,7 @@ class Task_Dao:
             return str(obj)
         raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
-    def find_tasks(self, board_id, list_id):
+    def find(self, board_id, list_id):
         result = []
         query_find = {"listId": list_id, "boardId": board_id}
         cursor = self.task_collection.find(query_find).sort("priority")
@@ -35,22 +36,21 @@ class Task_Dao:
     def delete(self, task_id):
         if self.task_collection.delete_one({"_id": ObjectId(task_id)}).deleted_count:
             return True
-        raise BaseException(f"task with {task_id} is not found")
+        raise NotDeletedError(f"task with {task_id} is not found")
 
-    def updates(self, task_id, task):
+    def update(self, task_id, task):
 
         query_update = {"_id": ObjectId(task_id)}
         new_values = {"$set": {"priority": task.get("priority"), "listId": task.get("listId"), "description": task.get(
             "description")}}
 
-        x = self.task_collection.update_one(query_update, new_values)
-        if x.modified_count:
+        if self.task_collection.update_one(query_update, new_values).modified_count:
             return True
 
-        if ObjectId(task_id) is None:
-            raise NameError(f"Task with {task_id} is not found!")
+        raise NotUpdatedError(f"task with the {task_id} is not updated!")
 
-        raise BaseException("task is not updated!")
+
+    # raise [expression [from another_expression]]
 
 
 task_dao_instance = Task_Dao()

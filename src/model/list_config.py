@@ -7,3 +7,4 @@ class ListConfig:
     id: str
     name: str
     style: Style
+

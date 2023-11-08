@@ -13,7 +13,6 @@ class Task:
     priority: int = 1000
     description: str = ""
 
-
     @staticmethod
     def fromJSON(listId, boardId, task):
         date = int(datetime.utcnow().timestamp()) * 1000
