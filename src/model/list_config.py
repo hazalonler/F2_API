@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.model.board_style import Style
+from src.model.style import Style
 
 
 @dataclass

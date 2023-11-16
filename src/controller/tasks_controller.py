@@ -1,4 +1,3 @@
-from flask import make_response
 from src.dao.task_dao import task_dao_instance as task_dao
 import logging
 
@@ -35,9 +34,7 @@ def update(_id, task):
         is_updated = task_dao.update(_id, task)
 
         if is_updated is True:
-            return make_response(
-                f"The task with the ID {_id} successfully updated", 200
-            )
+            return {f"The task with the ID {_id} successfully updated"}, 200
     except Exception as e:
         logging.exception(f"Failed to update task({_id})! Data: {task}, Exception: {e}")
         return {"result": f"Failed to update task({_id})"}, 500
