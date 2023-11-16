@@ -4,17 +4,17 @@ from src.model.list_config import ListConfig
 
 @dataclass
 class BoardConfig:
-    board_name: str
-    board_id: str
-    list_config: list[ListConfig]
+    name: str
+    id: str
+    list_configs: list[ListConfig]
 
 
     @staticmethod
-    def toJSON(board):
+    def fromBSON(board):
         id = board.get("_id")
         name = board.get("boardName")
-        listConfig = board.get("listConfig")
+        listConfigs = board.get("listConfigs")
 
-        return BoardConfig(name, id, listConfig)
+        return BoardConfig(name, id, listConfigs)
 
 

@@ -3,12 +3,6 @@ class Error(Exception):
     pass
 
 
-class NotUpdatedError(Error):
-    """Raised when the task is not updated"""
-    pass
-
-
 class NotDeletedError(Error):
     """Raised when the task is not deleted"""
     pass
-

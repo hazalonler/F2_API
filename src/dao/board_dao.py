@@ -1,9 +1,8 @@
 import pymongo
-from bson import ObjectId
 from src.model.board_config import BoardConfig
 
-class Board_Dao:
 
+class Board_Dao:
     def __init__(self):
         self.client = pymongo.MongoClient('mongodb://localhost:27017/')
         self.database = self.client["F2"]
@@ -14,7 +13,7 @@ class Board_Dao:
         cursor = self.board_collection.find()
         for board_dict in cursor:
             board_dict["_id"] = str(board_dict.get("_id"))
-            result.append(BoardConfig.toJSON(board_dict))
+            result.append(BoardConfig.fromBSON(board_dict))
 
         return result
 
