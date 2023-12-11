@@ -32,9 +32,10 @@ def delete(_id):
 def update(_id, task):
     try:
         is_updated = task_dao.update(_id, task)
-
-        if is_updated is True:
-            return {f"The task with the ID {_id} successfully updated"}, 200
+        return {"updated": is_updated}, 200
     except Exception as e:
         logging.exception(f"Failed to update task({_id})! Data: {task}, Exception: {e}")
         return {"result": f"Failed to update task({_id})"}, 500
+
+
+
