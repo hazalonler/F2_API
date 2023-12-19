@@ -21,7 +21,7 @@ components:
         description:
           type: "string"
         priority:
-          type: "integer"
+          type: "string"
         listId:
           type: "string"
         boardId:

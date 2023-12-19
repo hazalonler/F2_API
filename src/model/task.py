@@ -9,8 +9,8 @@ class Task:
     updatedTs: int
     listId: str
     boardId: str
+    priority: str
     id: object = None
-    priority: int = 1000
     description: str = ""
 
     @staticmethod
@@ -18,7 +18,7 @@ class Task:
         date = int(datetime.utcnow().timestamp()) * 1000
         description = task.get("description", "")
         name = task.get("name")
-        priority = task.get("priority", 1000)
+        priority = task.get("priority")
         return Task(name, date, date, listId, boardId, priority, description)
 
     @staticmethod
@@ -32,7 +32,7 @@ class Task:
         priority = task.get("priority")
         description = task.get("description")
 
-        return Task(name, creationTs, updatedTs, listId, boardId, task_id, priority, description)
+        return Task(name, creationTs, updatedTs, listId, boardId, priority, task_id, description)
 
     @staticmethod
     def asDict(task):
